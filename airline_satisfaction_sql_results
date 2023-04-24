@@ -1,0 +1,108 @@
+--- Total Passengers In The Survey
+
+SELECT COUNT(gender) AS total_participants
+FROM airline.passenger_satisfaction;
+
+--- Total Passengers By Gender
+
+SELECT gender, COUNT(gender) AS total_gender
+FROM airline.passenger_satisfaction
+GROUP BY gender;
+
+--- Age Range of Passengers 
+
+SELECT MAX(Age), MIN(Age)
+FROM airline.passenger_satisfaction;
+
+--- Total Count of Each Class
+
+SELECT class, COUNT(class) AS class_count
+FROM airline.passenger_satisfaction
+GROUP BY class;
+
+--- Share of Customer Types
+
+SELECT customer_type, COUNT(Customer_Type) AS cus_type_count
+FROM airline.passenger_satisfaction
+GROUP BY customer_type;
+
+--- Total Satisfaction Count
+
+SELECT satisfaction, COUNT(satisfaction) AS count_satisfaction
+FROM airline.passenger_satisfaction
+GROUP BY satisfaction;
+
+--- Satisfaction Percentage
+
+SELECT satisfaction, ROUND(COUNT(satisfaction)/129487*100,0) AS satisfaction_percent
+FROM airline.passenger_satisfaction
+GROUP BY satisfaction;
+
+--- Satisfaction Percentage By Customer Type
+
+SELECT customer_type, satisfaction, ROUND(COUNT(satisfaction)/129487*100,0) AS satisfaction_percent
+FROM airline.passenger_satisfaction
+GROUP BY customer_type,satisfaction;
+
+--- Satisfaction Percentage By Type of Travel
+
+SELECT travel_type, satisfaction, ROUND(COUNT(satisfaction)/129487*100,0) AS satisfaction_percent
+FROM airline.passenger_satisfaction
+GROUP BY travel_type, satisfaction; 
+
+--- Total Distance Travelled By Customers
+
+SELECT SUM(Flight_Distance)
+FROM airline.passenger_satisfaction;
+
+--- Distance Traveled By Class
+
+SELECT class, SUM(Flight_Distance)
+FROM airline.passenger_satisfaction
+GROUP BY class;
+
+--- Distance Traveled By Travel Type
+
+SELECT travel_type, SUM(Flight_Distance)
+FROM airline.passenger_satisfaction
+GROUP BY travel_type;
+
+--- Ease of Online Booking By Class
+
+SELECT class, COUNT(Ease_of_Online_Booking)
+FROM airline.passenger_satisfaction
+GROUP BY class;
+
+--- Overall Satisfaction 
+
+SELECT class, COUNT(Satisfaction)
+FROM airline.passenger_satisfaction
+GROUP BY class;
+
+--- Identifying Satisfaction Rating Matrix for Online Boarding
+
+SELECT Class, In_flight_Service,
+CASE
+	WHEN In_flight_Service <= 2 THEN 'Dissatisfied'
+    WHEN In_flight_Service = 3 THEN 'Neutral'
+    ELSE 'Satisfied'
+END AS Sentiment
+FROM airline.passenger_satisfaction;
+
+--- Ranking of Most Distance Travelled By Class 
+
+SELECT class, RANK () OVER(ORDER BY SUM(flight_distance) DESC)
+FROM airline.passenger_satisfaction
+GROUP BY class;
+
+--- Average Rating of Guest Pre-Flight Experience
+ 
+SELECT AVG(Departure_and_Arrival_Time_Convenience), AVG(Ease_of_Online_Booking), 
+ AVG(Check_in_Service), AVG(Online_Boarding), AVG(Gate_Location)
+FROM airline.passenger_satisfaction;
+
+--- Average Rating of Guest In-Flight Experience
+
+SELECT AVG(Seat_Comfort), AVG(Leg_Room_Service), 
+ AVG(Cleanliness), AVG(Food_and_Drink), AVG(In_flight_Service), AVG(In_flight_Wifi_Service)
+FROM airline.passenger_satisfaction;
