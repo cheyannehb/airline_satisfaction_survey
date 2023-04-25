@@ -67,11 +67,13 @@ SELECT travel_type, SUM(Flight_Distance)
 FROM airline.passenger_satisfaction
 GROUP BY travel_type;
 
---- Ease of Online Booking By Class
+--- Ease of Online Booking By Score
 
-SELECT class, COUNT(Ease_of_Online_Booking)
+SELECT DISTINCT Departure_and_Arrival_Time_Convenience AS rating, 
+	COUNT(Ease_of_Online_Booking) AS total_count
 FROM airline.passenger_satisfaction
-GROUP BY class;
+GROUP BY rating
+ORDER BY total_count DESC;
 
 --- Overall Satisfaction 
 
