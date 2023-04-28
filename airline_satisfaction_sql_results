@@ -108,3 +108,32 @@ FROM airline.passenger_satisfaction;
 SELECT AVG(Seat_Comfort), AVG(Leg_Room_Service), 
  AVG(Cleanliness), AVG(Food_and_Drink), AVG(In_flight_Service), AVG(In_flight_Wifi_Service)
 FROM airline.passenger_satisfaction;
+
+--- Comparison of Pre-Flight Survey Results
+
+SELECT DISTINCT Departure_and_Arrival_Time_Convenience AS rating, 
+    SUM(On_board_Service) AS onboard_service,
+    SUM(Departure_and_Arrival_Time_Convenience) AS departure_and_arrival_time,
+	SUM(Ease_of_Online_Booking) AS ease_of_online_booking,
+    SUM(Check_in_Service)  AS check_in_service,
+    SUM(Online_Boarding) AS online_boarding,
+    SUM(Gate_Location) AS gate_location,
+    SUM(Baggage_Handling) AS baggage_handling
+FROM airline.passenger_satisfaction
+GROUP BY rating
+ORDER BY onboard_service DESC;
+
+--- Comparison of Inflight Survey Results
+
+SELECT DISTINCT Departure_and_Arrival_Time_Convenience AS rating, 
+    SUM(Gate_Location) AS gate_location,
+    SUM(Food_and_Drink) AS food_and_drink,
+    SUM(Seat_Comfort) AS seat_comfort,
+    SUM(Leg_Room_Service) AS leg_room_service,
+    SUM(Cleanliness) AS cleanliness,
+    SUM(In_flight_Service) AS inflight_service,
+    SUM(In_flight_Wifi_Service) AS inflight_wifi_service,
+    SUM(In_flight_Entertainment) AS inflight_entertainment
+FROM airline.passenger_satisfaction
+GROUP BY rating
+ORDER BY gate_location DESC;
